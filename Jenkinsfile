@@ -5,12 +5,18 @@ pipeline {
       parallel {
         stage('code inspection tools') {
           steps {
-            git(branch: 'master', url: 'https://github.com/corgibytes/code_inspection_tools.git', credentialsId: 'github-credentials')
+            dir(path: 'code-inspection-tools') {
+              git(url: 'https://github.com/corgibytes/code_inspection_tools.git', branch: 'master', credentialsId: 'github-credentials', changelog: true)
+            }
+
           }
         }
-        stage('error') {
+        stage('checkout source repository') {
           steps {
-            git(branch: 'master', credentialsId: 'github-credentials', url: 'https://github.com/corgibytes/ein-slackbot.git')
+            dir(path: 'source-repository') {
+              git(url: 'https://github.com/corgibytes/ein-slackbot.git', branch: 'master', credentialsId: 'github-credentials', changelog: true)
+            }
+
           }
         }
       }

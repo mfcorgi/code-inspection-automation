@@ -42,9 +42,6 @@ if [ -z "$repo" ]; then
 fi
 outdir="$(realpath "$repo")/inspection"
 
-# https://stackoverflow.com/a/2924755/25507
-bold=$(tput bold)
-normal=$(tput sgr0)
 
 if [ -z "$repo" ]; then
     echo "Usage: $0 repo-to-analyze" 1>&2
@@ -58,11 +55,11 @@ fi
 
 cd "$repo"
 
-echo "${bold}Creating $outdir to store results.${normal}"
+echo "Creating $outdir to store results."
 mkdir -p "$outdir"
 
 if [ ! -f "$outdir/cc-test-reporter" ]; then
-    echo "${bold}Downloading CodeClimate tools.${normal}"
+    echo "Downloading CodeClimate tools."
     if [ "$(uname)" = Darwin ]; then
         url=https://codeclimate.com/downloads/test-reporter/test-reporter-latest-darwin-amd64
     elif [ "$(uname)" = Linux ]; then
@@ -79,21 +76,21 @@ if [ ! -f "$outdir/cc-test-reporter" ]; then
     fi
 fi
 
-echo "${bold}Preparing CodeClimate configurations.${normal}"
+echo "Preparing CodeClimate configurations."
 GLOBIGNORE=.
 cp -v "$tools"/config/codeclimate/code_inspections/* .
 shopt -u dotglob
 
 if git ls-files --error-unmatch .eslintignore >& /dev/null ; then
-    echo "${bold}*${normal} Using customer .eslintignore instead of our own."
+    echo "* Using customer .eslintignore instead of our own."
     git checkout -- .eslintignore >& /dev/null
 fi
 if [ -f .eslintrc.js ] || [ -f .eslintrc.yaml ] || [ -f .eslintrc.json ] || [ -f .eslintrc ]; then
-    echo "${bold}*${normal} Both a customer and a Corgibytes ESLint configuration are present.  See"
+    echo "*Both a customer and a Corgibytes ESLint configuration are present.  See"
     echo "  https://eslint.org/docs/user-guide/configuring#configuration-file-formats"
 fi
 
-echo "${bold}Done. Please customize CodeClimate configurations as needed.${normal}"'''
+echo "Done. Please customize CodeClimate configurations as needed."'''
       }
     }
   }

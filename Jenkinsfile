@@ -35,7 +35,7 @@ sudo chmod u+x /usr/local/bin/git-churn
       steps {
         sh '''#!/bin/bash
 
-tools="code-inspection-tools"
+tools="$(realpath code-inspection-tools)"
 repo="source-repository"
 if [ -z "$repo" ]; then
     repo=$(realpath .)

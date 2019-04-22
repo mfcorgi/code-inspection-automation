@@ -24,5 +24,6 @@ pipeline {
   }
   environment {
     source_repository = 'https://github.com/corgibytes/ein-slackbot.git'
+    chunk_months_recent = '3'
   }
 }

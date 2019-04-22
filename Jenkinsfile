@@ -24,11 +24,31 @@ pipeline {
     stage('install churn') {
       steps {
         dir(path: 'code-inspection-tools') {
-          sh '''echo $PATH
-sudo cp sh/git-churn /usr/local/bin
-sudo chmod u+x /usr/local/bin/git-churn'''
+          sh '''sudo cp sh/git-churn /usr/local/bin
+sudo chmod u+x /usr/local/bin/git-churn
+'''
         }
 
+      }
+    }
+    stage('run churn recent') {
+      parallel {
+        stage('run churn recent') {
+          steps {
+            dir(path: 'source-repository') {
+              sh 'git churn'
+            }
+
+          }
+        }
+        stage('run churn lifetime') {
+          steps {
+            dir(path: 'source-repository') {
+              sh 'echo "churn lifetime"'
+            }
+
+          }
+        }
       }
     }
   }

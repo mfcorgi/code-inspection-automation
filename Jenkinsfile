@@ -14,7 +14,7 @@ pipeline {
         stage('checkout source repository') {
           steps {
             dir(path: 'source-repository') {
-              git(url: '${env.source_repository}', branch: 'master', credentialsId: 'github-credentials', changelog: true)
+              git(url: "${env.source_repository}", branch: 'master', credentialsId: 'github-credentials', changelog: true)
             }
 
           }

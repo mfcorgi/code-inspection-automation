@@ -31,7 +31,7 @@ sudo chmod u+x /usr/local/bin/git-churn
 
       }
     }
-    stage('run prepare.sh') {
+    stage('execute prepare.sh') {
       steps {
         sh '''#!/bin/bash
 
@@ -91,6 +91,84 @@ if [ -f .eslintrc.js ] || [ -f .eslintrc.yaml ] || [ -f .eslintrc.json ] || [ -f
 fi
 
 echo "Done. Please customize CodeClimate configurations as needed."'''
+      }
+    }
+    stage('execute run.sh') {
+      steps {
+        sh '''#!/bin/bash
+
+tools="$(realpath code-inspection-tools)"
+repo="source-repository"
+if [ -z "$repo" ]; then
+    repo=$(realpath .)
+fi
+outdir="$(realpath "$repo")/inspection"
+
+export PATH="$tools/sh":$PATH
+
+if [ -z "$repo" ]; then
+    echo "Usage: $0 repo-to-analyze" 1>&2
+    exit 1
+fi
+
+if [ ! -d "$repo/.git" ]; then
+    echo "$repo does not appear to be a Git repository" 1>&2
+    exit 1
+fi
+
+if [ ! -d "$outdir" ]; then
+    echo "$outdir does not exist.  Please run prepare.sh" 1>&2
+    exit 1
+fi
+
+if ! command -v codeclimate >& /dev/null; then
+    echo "\'codeclimate\' is not runnable.  Please download and install the " 1>&2
+    echo "CodeClimate CLI, including the wrapper package, as described here:" 1>&2
+    echo https://github.com/codeclimate/codeclimate#code-climate-cli 1>&2
+    exit 1
+fi
+
+cd "$1"
+
+lifetime="$outdir/churn_lifetime.txt"
+if [ ! -f "$lifetime" ]; then
+    echo "Processing lifetime churn..."
+    git churn > "$lifetime.new"
+    mv "$lifetime.new" "$lifetime"
+fi
+
+recent="$outdir/churn_recent.txt"
+if [ ! -f "$recent" ]; then
+    echo "Processing recent churn..."
+    git churn --since=\'3 months ago\' > "$recent.new"
+    mv "$recent.new" "$recent"
+fi
+
+cc="$outdir/ci_cc_results.json"
+if [ ! -f "$cc" ]; then
+    echo "Processing CodeClimate..."
+    codeclimate analyze -f json > "$cc.new"
+
+    # If Python is available, then use it to pretty-print the JSON,
+    # to aid in manual inspection.
+    if command -v python >& /dev/null ; then
+        python -m json.tool "$cc.new" > "$cc"
+        rm "$cc.new"
+    else
+        mv "$cc.new" "$cc"
+    fi
+fi
+
+coverage="$outdir/coverage.json"
+if [ ! -f "$coverage" ]; then
+    echo "Processing code coverage..."
+    echo "Code coverage cannot be automatically processed."
+    echo "Please see README.md and coverage-howto.md for instructions."
+    exit 1
+fi
+
+(cd "$tools/script" && bundle exec metrics-parser --dir="$outdir")
+echo "Wrote $outdir/data.csv"'''
       }
     }
   }

@@ -31,24 +31,12 @@ sudo chmod u+x /usr/local/bin/git-churn
 
       }
     }
-    stage('run churn recent') {
-      parallel {
-        stage('run churn recent') {
-          steps {
-            dir(path: 'source-repository') {
-              sh 'git churn'
-            }
-
-          }
+    stage('run prepare.sh') {
+      steps {
+        dir(path: 'code-inspection-tools') {
+          sh 'sh/prepare.sh "../source-repository"'
         }
-        stage('run churn lifetime') {
-          steps {
-            dir(path: 'source-repository') {
-              sh 'echo "churn lifetime"'
-            }
 
-          }
-        }
       }
     }
   }

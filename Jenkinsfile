@@ -14,12 +14,15 @@ pipeline {
         stage('checkout source repository') {
           steps {
             dir(path: 'source-repository') {
-              git(url: 'https://github.com/corgibytes/ein-slackbot.git', branch: 'master', credentialsId: 'github-credentials', changelog: true)
+              git(url: '${source_repository}', branch: 'master', credentialsId: 'github-credentials', changelog: true)
             }
 
           }
         }
       }
     }
+  }
+  environment {
+    source_repository = 'https://github.com/corgibytes/ein-slackbot.git'
   }
 }

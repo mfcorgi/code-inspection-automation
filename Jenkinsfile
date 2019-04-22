@@ -26,7 +26,7 @@ pipeline {
         dir(path: 'code-inspection-tools') {
           sh '''echo $PATH
 sudo cp sh/git-churn /usr/local/bin
-chmod u+x /usr/local/bin/git-churn'''
+sudo chmod u+x /usr/local/bin/git-churn'''
         }
 
       }

@@ -33,7 +33,7 @@ sudo chmod u+x /usr/local/bin/git-churn
     }
     stage('run prepare.sh') {
       steps {
-        sh '''#!/bin/bash -e
+        sh '''#!/bin/bash
 
 tools="$(realpath "$(dirname "$0")"/..)"
 repo="source-repository"

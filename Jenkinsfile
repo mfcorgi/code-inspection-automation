@@ -33,10 +33,7 @@ sudo chmod u+x /usr/local/bin/git-churn
     }
     stage('run prepare.sh') {
       steps {
-        dir(path: 'code-inspection-tools') {
-          sh 'sh/prepare.sh "../source-repository"'
-        }
-
+        sh 'code-inspection-tools/sh/prepare.sh source-repository'
       }
     }
   }

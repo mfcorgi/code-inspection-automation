@@ -126,8 +126,7 @@ fi
 cc="$outdir/ci_cc_results.json"
 if [ ! -f "$cc" ]; then
     echo "Processing CodeClimate..."
-    docker run \\
-    --interactive --tty --rm \\
+    docker run \\    
     --env CODECLIMATE_CODE="$PWD" \\
     --volume "$PWD":/code \\
     --volume /var/run/docker.sock:/var/run/docker.sock \\

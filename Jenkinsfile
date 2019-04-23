@@ -48,11 +48,11 @@ cd codeclimate-* && sudo make install'''
         sh '''#!/bin/bash
 
 tools="$(realpath code-inspection-tools)"
-repo="source-repository"
+repo="$(realpath source-repository)"
 if [ -z "$repo" ]; then
     repo=$(realpath .)
 fi
-outdir="$(realpath "$repo")/inspection"
+outdir="$repo"/inspection"
 
 
 if [ -z "$repo" ]; then
@@ -90,10 +90,9 @@ fi
 
 echo "Preparing CodeClimate configurations."
 GLOBIGNORE=.
-cp -v "$tools"/config/codeclimate/code_inspections/* $(realpath "$repo")
+cp -v "$tools"/config/codeclimate/code_inspections/* .
 shopt -u dotglob
 
-cd $(realpath "$repo")
 if git ls-files --error-unmatch .eslintignore >& /dev/null ; then
     echo "* Using customer .eslintignore instead of our own."
     git checkout -- .eslintignore >& /dev/null

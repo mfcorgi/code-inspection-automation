@@ -100,9 +100,8 @@ echo "Done. Please customize CodeClimate configurations as needed."'''
         stage('execute code climate') {
           steps {
             dir(path: 'source-repository') {
-              sh '''#!/bin/bash
+              sh '''#!/bin/bash -e
 
-set -e
 outdir="inspection"
 
 if [ ! -d ".git" ]; then

@@ -102,6 +102,7 @@ echo "Done. Please customize CodeClimate configurations as needed."'''
             dir(path: 'source-repository') {
               sh '''#!/bin/bash
 
+set -e
 outdir="inspection"
 
 if [ ! -d ".git" ]; then

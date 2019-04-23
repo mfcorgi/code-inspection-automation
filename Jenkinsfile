@@ -168,12 +168,12 @@ if ! command -v codeclimate >& /dev/null; then
     exit 1
 fi
 
-recent="$outdir/churn_recent.txt"
+lifetime="$outdir/churn_lifetime.txt"
 
-if [ ! -f "$recent" ]; then
-    echo "Processing recent churn..."
-     git churn --since=\'3 months ago\' > "$recent.new"
-     mv "$recent.new" "$recent"
+if [ ! -f "$lifetime" ]; then
+    echo "${bold}Processing lifetime churn...${normal}"
+    git churn > "$lifetime.new"
+    mv "$lifetime.new" "$lifetime"
 fi
 '''
             }

@@ -23,24 +23,14 @@ pipeline {
         }
       }
     }
-    stage('install tools') {
-      parallel {
-        stage('install churn') {
-          steps {
-            dir(path: 'code-inspection-tools') {
-              sh '''sudo cp sh/git-churn /usr/local/bin
+    stage('install churn') {
+      steps {
+        dir(path: 'code-inspection-tools') {
+          sh '''sudo cp sh/git-churn /usr/local/bin
 sudo chmod u+x /usr/local/bin/git-churn
 '''
-            }
+        }
 
-          }
-        }
-        stage('install code climate') {
-          steps {
-            sh '''curl -L https://github.com/codeclimate/codeclimate/archive/master.tar.gz | tar xvz
-cd codeclimate-* && sudo make install'''
-          }
-        }
       }
     }
     stage('execute prepare.sh') {

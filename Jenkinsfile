@@ -26,7 +26,9 @@ pipeline {
     stage('install churn') {
       steps {
         dir(path: 'code-inspection-tools') {
-          sh '''sudo cp sh/git-churn /usr/local/bin
+          sh '''#!/bin/bash -e
+
+sudo cp sh/git-churn /usr/local/bin
 sudo chmod u+x /usr/local/bin/git-churn
 '''
         }

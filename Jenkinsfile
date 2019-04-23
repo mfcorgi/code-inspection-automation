@@ -220,6 +220,14 @@ fi
         }
       }
     }
+     stage('consolidate report') {
+      steps {
+        dir(path: 'source-repository') {
+          archiveArtifacts 'inspection/*'
+        }
+
+      }
+    }
     stage('save artifacts') {
       steps {
         dir(path: 'source-repository') {

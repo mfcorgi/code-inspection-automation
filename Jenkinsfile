@@ -143,7 +143,7 @@ fi
         stage('execute churn lifetime') {
           steps {
             dir(path: 'source-repository') {
-              sh '''#!/bin/bash
+              sh '''#!/bin/bash -e
 
 outdir="inspection"
 
@@ -180,9 +180,8 @@ fi
         }
         stage('execute churn recent') {
           steps {
-            sh 'echo "churn recent"'
             dir(path: 'source-repository') {
-              sh '''#!/bin/bash
+              sh '''#!/bin/bash -e
 
 outdir="inspection"
 

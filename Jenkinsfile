@@ -93,7 +93,7 @@ GLOBIGNORE=.
 cp -v "$tools"/config/codeclimate/code_inspections/* "$repo"
 shopt -u dotglob
 
-cd "$repo"
+cd $(realpath "$repo")
 if git ls-files --error-unmatch .eslintignore >& /dev/null ; then
     echo "* Using customer .eslintignore instead of our own."
     git checkout -- .eslintignore >& /dev/null

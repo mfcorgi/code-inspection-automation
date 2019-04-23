@@ -90,7 +90,7 @@ fi
 
 echo "Preparing CodeClimate configurations."
 GLOBIGNORE=.
-cp -v "$tools"/config/codeclimate/code_inspections/* .
+cp -v "$tools"/config/codeclimate/code_inspections/* "$repo"
 shopt -u dotglob
 
 if git ls-files --error-unmatch .eslintignore >& /dev/null ; then

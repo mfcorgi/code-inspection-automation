@@ -129,16 +129,8 @@ cc="$outdir/ci_cc_results.json"
 if [ ! -f "$cc" ]; then
     echo "Processing CodeClimate..."
     sudo docker pull codeclimate/codeclimate
-    sudo docker run --env CODECLIMATE_DEBUG=1 --env CODECLIMATE_CODE="${repo}" --volume "${repo}":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json 
-
-    # If Python is available, then use it to pretty-print the JSON,
-    # to aid in manual inspection.
-    if command -v python >& /dev/null ; then
-        python -m json.tool "$cc.new" > "$cc"
-        rm "$cc.new"
-    else
-        mv "$cc.new" "$cc"
-    fi
+    sudo docker run --env CODECLIMATE_DEBUG=1 --env CODECLIMATE_CODE="${repo}" --volume "${repo}":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json > "$cc.new"
+    mv "$cc.new" "$cc"    
 fi
 '''
             }

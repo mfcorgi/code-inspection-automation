@@ -95,9 +95,11 @@ fi
 echo "Done. Please customize CodeClimate configurations as needed."'''
       }
     }
-    stage('execute run.sh') {
-      steps {
-        sh '''#!/bin/bash
+    stage('collect metrics') {
+      parallel {
+        stage('execute code climate') {
+          steps {
+            sh '''#!/bin/bash
 
 tools="$(realpath code-inspection-tools)"
 repo="source-repository"
@@ -164,6 +166,124 @@ fi
 
 (cd "$tools/script" && bundle exec metrics-parser --dir="$outdir")
 echo "Wrote $outdir/data.csv"'''
+            dir(path: 'source-repository') {
+              sh '''#!/bin/bash
+
+outdir="inspection"
+
+if [ ! -d ".git" ]; then
+    echo "It does not appear to be a Git repository" 1>&2
+    exit 1
+fi
+
+if [ ! -d "$outdir" ]; then
+    echo "$outdir does not exist.  Please run prepare.sh" 1>&2
+    exit 1
+fi
+
+if ! command -v codeclimate >& /dev/null; then
+    echo "\'codeclimate\' is not runnable.  Please download and install the " 1>&2
+    echo "CodeClimate CLI, including the wrapper package, as described here:" 1>&2
+    echo https://github.com/codeclimate/codeclimate#code-climate-cli 1>&2
+    exit 1
+fi
+
+cc="$outdir/ci_cc_results.json"
+if [ ! -f "$cc" ]; then
+    echo "Processing CodeClimate..."
+    codeclimate analyze -f json > "$cc.new"
+
+    # If Python is available, then use it to pretty-print the JSON,
+    # to aid in manual inspection.
+    if command -v python >& /dev/null ; then
+        python -m json.tool "$cc.new" > "$cc"
+        rm "$cc.new"
+    else
+        mv "$cc.new" "$cc"
+    fi
+fi
+'''
+            }
+
+          }
+        }
+        stage('execute churn lifetime') {
+          steps {
+            dir(path: 'source-repository') {
+              sh '''#!/bin/bash
+
+outdir="inspection"
+
+export PATH="$tools/sh":$PATH
+
+if [ ! -d ".git" ]; then
+    echo "It does not appear to be a Git repository" 1>&2
+    exit 1
+fi
+
+if [ ! -d "$outdir" ]; then
+    echo "$outdir does not exist.  Please run prepare.sh" 1>&2
+    exit 1
+fi
+
+if ! command -v codeclimate >& /dev/null; then
+    echo "\'codeclimate\' is not runnable.  Please download and install the " 1>&2
+    echo "CodeClimate CLI, including the wrapper package, as described here:" 1>&2
+    echo https://github.com/codeclimate/codeclimate#code-climate-cli 1>&2
+    exit 1
+fi
+
+recent="$outdir/churn_recent.txt"
+
+if [ ! -f "$recent" ]; then
+    echo "Processing recent churn..."
+     git churn --since=\'3 months ago\' > "$recent.new"
+     mv "$recent.new" "$recent"
+fi
+'''
+            }
+
+          }
+        }
+        stage('execute churn recent') {
+          steps {
+            sh 'echo "churn recent"'
+            dir(path: 'source-repository') {
+              sh '''#!/bin/bash
+
+outdir="inspection"
+
+export PATH="$tools/sh":$PATH
+
+if [ ! -d ".git" ]; then
+    echo "It does not appear to be a Git repository" 1>&2
+    exit 1
+fi
+
+if [ ! -d "$outdir" ]; then
+    echo "$outdir does not exist.  Please run prepare.sh" 1>&2
+    exit 1
+fi
+
+if ! command -v codeclimate >& /dev/null; then
+    echo "\'codeclimate\' is not runnable.  Please download and install the " 1>&2
+    echo "CodeClimate CLI, including the wrapper package, as described here:" 1>&2
+    echo https://github.com/codeclimate/codeclimate#code-climate-cli 1>&2
+    exit 1
+fi
+
+
+recent="$outdir/churn_recent.txt"
+if [ ! -f "$recent" ]; then
+    echo "Processing recent churn..."
+     git churn --since=\'3 months ago\' > "$recent.new"
+     mv "$recent.new" "$recent"
+fi
+'''
+            }
+
+          }
+        }
       }
     }
     stage('save artifacts') {

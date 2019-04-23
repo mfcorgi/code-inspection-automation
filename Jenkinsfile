@@ -1,7 +1,7 @@
 pipeline {
   agent any
   stages {
-    stage('checkout inspection tools') {
+    stage('checkout') {
       parallel {
         stage('code inspection tools') {
           steps {
@@ -21,7 +21,7 @@ pipeline {
         }
       }
     }
-    stage('install churn') {
+    stage('install tools') {
       parallel {
         stage('install churn') {
           steps {
@@ -184,6 +184,5 @@ echo "Wrote $outdir/data.csv"'''
   }
   environment {
     source_repository = 'https://github.com/corgibytes/ein-slackbot.git'
-    chunk_months_recent = '3'
   }
 }

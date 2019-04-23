@@ -90,7 +90,7 @@ fi
 
 echo "Preparing CodeClimate configurations."
 GLOBIGNORE=.
-cp -v "$tools"/config/codeclimate/code_inspections/* "$repo"
+cp -v "$tools"/config/codeclimate/code_inspections/* $(realpath "$repo")
 shopt -u dotglob
 
 cd $(realpath "$repo")

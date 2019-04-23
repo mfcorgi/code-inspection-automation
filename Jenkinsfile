@@ -176,6 +176,19 @@ fi
 echo "Wrote $outdir/data.csv"'''
       }
     }
+    stage('save artifacts') {
+      steps {
+        dir(path: 'source-repository') {
+          archiveArtifacts 'inspection/*'
+        }
+
+      }
+    }
+    stage('send email') {
+      steps {
+        emailext(subject: 'Code Inspection Result', attachLog: true, to: 'maira@corgibytes.com', compressLog: true, from: 'jenkins@corgibytes.com', attachmentsPattern: '*', body: 'Code Inspection Result')
+      }
+    }
   }
   environment {
     source_repository = 'https://github.com/corgibytes/ein-slackbot.git'

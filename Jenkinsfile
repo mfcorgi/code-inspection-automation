@@ -45,16 +45,15 @@ cd codeclimate-* && sudo make install'''
     }
     stage('execute prepare.sh') {
       steps {
-        sh '''#!/bin/bash
+        sh '''#!/bin/bash -e
 
 tools="$(realpath code-inspection-tools)"
-repo="$(realpath source-repository)"
+repo="source-repository"
 
 if [ -z "$repo" ]; then
     repo=$(realpath .)
 fi
-outdir="$repo"/inspection"
-
+outdir="$(realpath "$repo")/inspection"
 
 if [ -z "$repo" ]; then
     echo "Usage: $0 repo-to-analyze" 1>&2
@@ -91,16 +90,15 @@ fi
 
 echo "Preparing CodeClimate configurations."
 GLOBIGNORE=.
-cp -v "$tools/config/codeclimate/code_inspections/*" "."
+cp -v "$tools"/config/codeclimate/code_inspections/* .
 shopt -u dotglob
 
 if git ls-files --error-unmatch .eslintignore >& /dev/null ; then
     echo "* Using customer .eslintignore instead of our own."
     git checkout -- .eslintignore >& /dev/null
 fi
-
 if [ -f .eslintrc.js ] || [ -f .eslintrc.yaml ] || [ -f .eslintrc.json ] || [ -f .eslintrc ]; then
-    echo "*Both a customer and a Corgibytes ESLint configuration are present.  See"
+    echo "* Both a customer and a Corgibytes ESLint configuration are present.  See"
     echo "  https://eslint.org/docs/user-guide/configuring#configuration-file-formats"
 fi
 

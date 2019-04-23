@@ -138,7 +138,7 @@ if ! command -v codeclimate >& /dev/null; then
     exit 1
 fi
 
-cd "$1"
+cd "$repo"
 
 lifetime="$outdir/churn_lifetime.txt"
 if [ ! -f "$lifetime" ]; then
@@ -150,8 +150,8 @@ fi
 recent="$outdir/churn_recent.txt"
 if [ ! -f "$recent" ]; then
     echo "Processing recent churn..."
-    git churn --since=\'3 months ago\' > "$recent.new"
-    mv "$recent.new" "$recent"
+     git churn --since=\'3 months ago\' > "$recent.new"
+     mv "$recent.new" "$recent"
 fi
 
 cc="$outdir/ci_cc_results.json"
@@ -169,13 +169,6 @@ if [ ! -f "$cc" ]; then
     fi
 fi
 
-coverage="$outdir/coverage.json"
-if [ ! -f "$coverage" ]; then
-    echo "Processing code coverage..."
-    echo "Code coverage cannot be automatically processed."
-    echo "Please see README.md and coverage-howto.md for instructions."
-    exit 1
-fi
 
 (cd "$tools/script" && bundle exec metrics-parser --dir="$outdir")
 echo "Wrote $outdir/data.csv"'''

@@ -126,7 +126,7 @@ fi
 cc="$outdir/ci_cc_results.json"
 if [ ! -f "$cc" ]; then
     echo "Processing CodeClimate..."
-    codeclimate analyze -f json > "$cc.new"
+    CODECLIMATE_DEBUG=1 codeclimate analyze -f json > "$cc.new"
 
     # If Python is available, then use it to pretty-print the JSON,
     # to aid in manual inspection.

@@ -220,7 +220,7 @@ fi
         }
       }
     }
-     stage('consolidate report') {
+    stage('consolidate report') {
       steps {
         dir(path: 'source-repository') {
           archiveArtifacts 'inspection/*'

@@ -7,6 +7,7 @@ pipeline {
           steps {
             dir(path: 'code-inspection-tools') {
               git(url: 'https://github.com/corgibytes/code_inspection_tools.git', branch: 'master', credentialsId: 'github-credentials', changelog: true)
+              sh 'rm -rf inspection'
             }
 
           }
@@ -15,6 +16,7 @@ pipeline {
           steps {
             dir(path: 'source-repository') {
               git(url: "${env.source_repository}", branch: 'master', credentialsId: 'github-credentials', changelog: true)
+              sh 'rm -rf inspection'
             }
 
           }

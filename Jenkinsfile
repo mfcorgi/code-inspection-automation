@@ -104,7 +104,7 @@ echo "Done. Please customize CodeClimate configurations as needed."'''
             dir(path: 'source-repository') {
               sh '''#!/bin/bash -e
 
-repo="$(realpath .)
+repo="$(realpath .)"
 echo "Repository Path $repo"
 outdir="inspection"
 

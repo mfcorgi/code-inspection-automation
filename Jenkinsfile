@@ -223,7 +223,10 @@ workspace="$(realpath .)"
 tools="$workspace/code-inspection-tools" 
 outdir="$workspace/source-repository/inspection"
 
-(cd "$tools/script" && bundle exec metrics-parser --dir="$outdir")
+cd "$tools/script"
+ruby -v
+gem install bundler
+bundle exec metrics-parser --dir="$outdir"
 
 echo "Wrote $outdir/data.csv"'''
       }

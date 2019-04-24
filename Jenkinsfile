@@ -220,8 +220,8 @@ fi
         sh '''#!/bin/bash -e
 
 workspace="$(realpath .)"
-tools="$workspace/code-inspection-tools" 
-repo="$workspace/source-repository"
+tools="$workspace/$code_inspection_folder" 
+repo="$workspace/$source_folder"
 outdir="$repo/inspection"
 
 cd "$tools/script"

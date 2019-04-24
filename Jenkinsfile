@@ -224,6 +224,7 @@ tools="$workspace/code-inspection-tools"
 outdir="$workspace/source-repository/inspection"
 
 cd "$tools/script"
+echo $PATH
 rbenv
 ruby -v
 gem install bundler

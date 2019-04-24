@@ -15,7 +15,7 @@ pipeline {
         stage('checkout source repository') {
           steps {
             dir(path: "${env.source_folder}") {
-              git(url: "${params.Repository}", branch: "${params.Branch}", credentialsId: "${env.CredentialsId}", changelog: true)
+              git(url: "${params.Repository}", branch: "${params.Branch}", credentialsId: "${params.CredentialsId}", changelog: true)
               sh 'rm -rf inspection'
             }
 

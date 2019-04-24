@@ -220,7 +220,7 @@ fi
         sh '''#!/bin/bash -e
 
 workspace="$(realpath .)"
-tools "$workspace/code-inspection-tools" 
+tools="$workspace/code-inspection-tools" 
 outdir="$workspace/source-repository/inspection"
 
 (cd "$tools/script" && bundle exec metrics-parser --dir="$outdir")

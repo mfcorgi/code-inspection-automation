@@ -1,12 +1,24 @@
-pipeline {
+pipeline {  
   agent any
+  environment {
+    source_folder = 'source-repository'
+    code_inspection_folder = 'code-inspection-tools'
+    code_inspection_url = 'https://github.com/corgibytes/code_inspection_tools.git'
+    code_inspection_branch = 'master'
+    code_inspection_credentials_id = 'github-credentials'    
+  }
+   parameters {
+    string(name: 'Repository', defaultValue: "'https://github.com/corgibytes/ein-slackbot.git'", description: "Repository URL to inspect")
+    string(name: 'Branch', defaultValue: "master", description: "Branch that you want to inspect")
+    string(name: 'CredentialsId', defaultValue: "github-credentials", description: "Credentials ID configured in Jenkins that allows access to the repository")
+  }
   stages {
     stage('checkout') {
       parallel {
         stage('code inspection tools') {
           steps {
             dir(path: 'code-inspection-tools') {
-              git(url: 'https://github.com/corgibytes/code_inspection_tools.git', branch: 'master', credentialsId: 'github-credentials', changelog: true)
+              git(url: "${env.code_inspection_url}", branch: "${envcode_inspection_branch}", credentialsId: "${env.code_inspection_credentials_id}", changelog: true)
               sh 'rm -rf inspection'
             }
 
@@ -14,8 +26,8 @@ pipeline {
         }
         stage('checkout source repository') {
           steps {
-            dir(path: 'source-repository') {
-              git(url: "${env.source_repository}", branch: 'master', credentialsId: 'github-credentials', changelog: true)
+            dir(path: "${env.source_folder}") {
+              git(url: "${params.Repository}", branch: "${params.Branch}", credentialsId: "${env.CredentialsId}", changelog: true)
               sh 'rm -rf inspection'
             }
 
@@ -25,7 +37,7 @@ pipeline {
     }
     stage('install churn') {
       steps {
-        dir(path: 'code-inspection-tools') {
+        dir(path: "${env.code_inspection_folder}") {
           sh '''#!/bin/bash -e
 
 sudo cp sh/git-churn /usr/local/bin
@@ -39,7 +51,7 @@ sudo chmod u+x /usr/local/bin/git-churn
       steps {
         sh '''#!/bin/bash -e
 
-tools="$(realpath code-inspection-tools)"
+tools="$(realpath ${env.code_inspection_folder})"
 repo="source-repository"
 
 if [ -z "$repo" ]; then
@@ -101,7 +113,7 @@ echo "Done. Please customize CodeClimate configurations as needed."'''
       parallel {
         stage('execute code climate') {
           steps {
-            dir(path: 'source-repository') {
+            dir(path: "${env.source_folder}") {
               sh '''#!/bin/bash -e
 
 repo="$(realpath .)"
@@ -139,7 +151,7 @@ fi
         }
         stage('execute churn lifetime') {
           steps {
-            dir(path: 'source-repository') {
+            dir(path: "${env.source_folder}") {
               sh '''#!/bin/bash -e
 
 outdir="inspection"
@@ -177,7 +189,7 @@ fi
         }
         stage('execute churn recent') {
           steps {
-            dir(path: 'source-repository') {
+            dir(path: "${env.source_folder}") {
               sh '''#!/bin/bash -e
 
 outdir="inspection"
@@ -236,7 +248,7 @@ echo "Wrote $outdir/data.csv"'''
     }
     stage('save artifacts') {
       steps {
-        dir(path: 'source-repository') {
+        dir(path: "${env.source_folder}") {
           archiveArtifacts 'inspection/*'
         }
 
@@ -248,7 +260,12 @@ echo "Wrote $outdir/data.csv"'''
       }
     }
   }
-  environment {
-    source_repository = 'https://github.com/corgibytes/ein-slackbot.git'
-  }
+   post {
+        always {
+          
+        }
+        failure {
+            mail to: team@example.com, subject: 'Code Inspection Automation Failed :('
+        }
+    }
 }

@@ -226,7 +226,7 @@ outdir="$workspace/source-repository/inspection"
 cd "$tools/script"
 echo $PATH
 
-PATH=$PATH:"/home/ec2-user/.rbenv/plugins/ruby-build/bin:/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin"
+$PATH=$PATH:/home/ec2-user/.rbenv/plugins/ruby-build/bin:/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin
 export $PATH
 
 rbenv

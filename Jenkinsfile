@@ -221,6 +221,7 @@ fi
 
 workspace="$(realpath .)"
 tools="$workspace/code-inspection-tools" 
+repo="$workspace/source-repository"
 outdir="$repo/inspection"
 
 cd "$tools/script"

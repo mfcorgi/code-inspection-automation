@@ -265,7 +265,7 @@ echo "Wrote $outdir/data.csv"'''
           
         }
         failure {
-            mail to: team@example.com, subject: 'Code Inspection Automation Failed :('
+            mail to: team@example.com, subject: 'Code Inspection Automation Failed'
         }
     }
 }

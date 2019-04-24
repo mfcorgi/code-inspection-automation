@@ -166,7 +166,7 @@ fi
 lifetime="$outdir/churn_lifetime.txt"
 
 if [ ! -f "$lifetime" ]; then
-    echo "${bold}Processing lifetime churn...${normal}"
+    echo "Processing lifetime churn..."
     git churn > "$lifetime.new"
     mv "$lifetime.new" "$lifetime"
 fi

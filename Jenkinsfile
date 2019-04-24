@@ -259,13 +259,5 @@ echo "Wrote $outdir/data.csv"'''
         emailext(subject: 'Code Inspection Result', attachLog: true, to: 'maira@corgibytes.com', compressLog: true, from: 'jenkins@corgibytes.com', attachmentsPattern: '*', body: 'Code Inspection Result')
       }
     }
-  }
-   post {
-        always {
-          
-        }
-        failure {
-            mail to: team@example.com, subject: 'Code Inspection Automation Failed'
-        }
-    }
+  }  
 }

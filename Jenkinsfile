@@ -217,10 +217,15 @@ fi
     }
     stage('consolidate report') {
       steps {
-        dir(path: 'source-repository') {
-          archiveArtifacts 'inspection/*'
-        }
+        sh '''#!/bin/bash -e
 
+workspace="$(realpath .)"
+tools "$workspace/code-inspection-tools" 
+outdir="$workspace/source-repository/inspection"
+
+(cd "$tools/script" && bundle exec metrics-parser --dir="$outdir")
+
+echo "Wrote $outdir/data.csv"'''
       }
     }
     stage('save artifacts') {

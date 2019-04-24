@@ -256,7 +256,7 @@ echo "Wrote $outdir/data.csv"'''
     code_inspection_credentials_id = 'github-credentials'
   }
   parameters {
-    string(name: 'Repository', defaultValue: "https://github.com/corgibytes/ein-slackbot.git", description: 'Repository URL to inspect')
+    string(name: 'Repository', defaultValue: 'https://github.com/corgibytes/ein-slackbot.git', description: 'Repository URL to inspect')
     string(name: 'Branch', defaultValue: 'master', description: 'Branch that you want to inspect')
     string(name: 'CredentialsId', defaultValue: 'github-credentials', description: 'Credentials ID configured in Jenkins that allows access to the repository')
   }

@@ -224,6 +224,7 @@ tools="$workspace/code-inspection-tools"
 outdir="$workspace/source-repository/inspection"
 
 cd "$tools/script"
+rbenv
 ruby -v
 gem install bundler
 bundle exec metrics-parser --dir="$outdir"

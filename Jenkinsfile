@@ -227,7 +227,7 @@ cd "$tools/script"
 
 export PATH=$PATH:/home/ec2-user/.rbenv/plugins/ruby-build/bin:/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin
 ruby -v
-
+bundle install
 bundle exec exe/metrics-parser --dir=$outdir
 
 echo "Wrote $outdir/data.csv"'''

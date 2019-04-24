@@ -40,7 +40,7 @@ sudo chmod u+x /usr/local/bin/git-churn
         sh '''#!/bin/bash -e
 
 tools="$(realpath $code_inspection_folder)"
-repo="source-repository"
+repo="$source_folder"
 
 if [ -z "$repo" ]; then
     repo=$(realpath .)

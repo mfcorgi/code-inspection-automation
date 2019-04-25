@@ -15,7 +15,7 @@ pipeline {
         stage('checkout source repository') {
           steps {
             dir(path: "${env.source_folder}") {
-              git(url: "${params.Repository}", branch: "${params.Branch}", credentialsId: "${params.CredentialsId}", changelog: true)
+              git(url: "${params.repository}", branch: "${params.branch}", credentialsId: "${params.credentials_id}", changelog: true)
               sh 'rm -rf inspection'
             }
 
@@ -256,8 +256,9 @@ echo "Wrote $outdir/data.csv"'''
     code_inspection_credentials_id = 'github-credentials'
   }
   parameters {
-    string(name: 'Repository', defaultValue: 'https://github.com/corgibytes/ein-slackbot.git', description: 'Repository URL to inspect')
-    string(name: 'Branch', defaultValue: 'master', description: 'Branch that you want to inspect')
-    string(name: 'CredentialsId', defaultValue: 'github-credentials', description: 'Credentials ID configured in Jenkins that allows access to the repository')
+    string(name: 'repository', defaultValue: 'https://github.com/corgibytes/ein-slackbot.git', description: 'Repository URL to inspect')
+    string(name: 'branch', defaultValue: 'master', description: 'Branch that you want to inspect')
+    string(name: 'credentials_id', defaultValue: 'github-credentials', description: 'Credentials ID configured in Jenkins that allows access to the repository')
+    text(name: 'code_climate_config', defaultValue: '', description: 'Code Climate Configuration. If empty, will use the default code climate configuration from code inspection repository') 
   }
 }

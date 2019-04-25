@@ -84,7 +84,7 @@ echo "Preparing CodeClimate configurations."
 GLOBIGNORE=.
 cp -v "$tools"/config/codeclimate/code_inspections/* .
 
-if [ ! -z "$code_climate_config" ];
+if [ ! -z "$code_climate_config" ]; then
   echo "$code_climate_config" > .codeclimate.yml
 fi
 

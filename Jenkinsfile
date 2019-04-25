@@ -39,8 +39,8 @@ sudo chmod u+x /usr/local/bin/git-churn
       steps {
         sh '''#!/bin/bash -e
 
-sudo chmod +x sh/jenkins/prepare.sh
-sudo ./sh/jenkins/prepare.sh $code_inspection_folder $source_folder $code_climate_config'''
+sudo chmod +x $code_inspection_folder/sh/jenkins/prepare.sh
+sudo ./$code_inspection_folder/sh/jenkins/prepare.sh $code_inspection_folder $source_folder $code_climate_config'''
       }
     }
     stage('collect metrics') {

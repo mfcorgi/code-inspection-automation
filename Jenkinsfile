@@ -16,7 +16,7 @@ pipeline {
           steps {
             dir(path: "${env.source_folder}") {
               git(url: "${params.repository}", branch: "${params.branch}", credentialsId: "${params.credentials_id}", changelog: true)
-              sh 'rm -rf inspection'
+              sh 'sudo rm -rf inspection'
             }
 
           }

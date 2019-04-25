@@ -40,7 +40,7 @@ sudo chmod u+x /usr/local/bin/git-churn
         dir(path: "${env.code_inspection_folder}") {
           sh '''#!/bin/bash -e
 
-./sh/jenkins/prepare.sh $code_inspection_folder $source_folder'''
+./sh/jenkins/prepare.sh $code_inspection_folder $source_folder $code_climate_config'''
         }
 
       }

@@ -51,7 +51,7 @@ sudo ./$code_inspection_folder/sh/jenkins/prepare.sh $code_inspection_folder $so
               sh '''#!/bin/bash -e
 
 sudo chmod +x $code_inspection_folder/sh/jenkins/execute_code_climate.sh
-sudo ./$code_inspection_folder/sh/jenkins/execute_code_climate.sh'''
+sudo ../$code_inspection_folder/sh/jenkins/execute_code_climate.sh'''
             }
 
           }

@@ -66,40 +66,10 @@ sudo $code_inspection_folder/sh/jenkins/execute_churn_lifetime.sh "$PWD/$code_in
         }
         stage('execute churn recent') {
           steps {
-            dir(path: "${env.source_folder}") {
-              sh '''#!/bin/bash -e
+            sh '''#!/bin/bash -e
 
-outdir="inspection"
-
-export PATH="$tools/sh":$PATH
-
-if [ ! -d ".git" ]; then
-    echo "It does not appear to be a Git repository" 1>&2
-    exit 1
-fi
-
-if [ ! -d "$outdir" ]; then
-    echo "$outdir does not exist.  Please run prepare.sh" 1>&2
-    exit 1
-fi
-
-if ! command -v codeclimate >& /dev/null; then
-    echo "\'codeclimate\' is not runnable.  Please download and install the " 1>&2
-    echo "CodeClimate CLI, including the wrapper package, as described here:" 1>&2
-    echo https://github.com/codeclimate/codeclimate#code-climate-cli 1>&2
-    exit 1
-fi
-
-
-recent="$outdir/churn_recent.txt"
-if [ ! -f "$recent" ]; then
-    echo "Processing recent churn..."
-     git churn --since=\'3 months ago\' > "$recent.new"
-     mv "$recent.new" "$recent"
-fi
-'''
-            }
-
+sudo chmod +x $code_inspection_folder/sh/jenkins/execute_churn_recent.sh
+sudo $code_inspection_folder/sh/jenkins/execute_churn_recent.sh "$PWD/$code_inspection_folder" "$PWD/$source_folder"'''
           }
         }
       }

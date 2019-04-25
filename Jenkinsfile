@@ -58,13 +58,10 @@ sudo ../$code_inspection_folder/sh/jenkins/execute_code_climate.sh'''
         }
         stage('execute churn lifetime') {
           steps {
-            dir(path: "${env.source_folder}") {
-              sh '''#!/bin/bash -e
+            sh '''#!/bin/bash -e
 
-sudo chmod +x ../$code_inspection_folder/sh/jenkins/execute_churn_lifetime.sh
-sudo ../$code_inspection_folder/sh/jenkins/execute_churn_lifetime.sh "$workspace/$code_inspection_folder"'''
-            }
-
+sudo chmod +x $code_inspection_folder/sh/jenkins/execute_churn_lifetime.sh
+sudo $code_inspection_folder/sh/jenkins/execute_churn_lifetime.sh "$pwd/$code_inspection_folder"'''
           }
         }
         stage('execute churn recent') {

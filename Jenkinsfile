@@ -100,6 +100,12 @@ if [ -f .eslintrc.js ] || [ -f .eslintrc.yaml ] || [ -f .eslintrc.json ] || [ -f
 fi
 
 echo "Done. Please customize CodeClimate configurations as needed."'''
+        dir(path: '"${env.code_inspection_folder}"') {
+          sh '''#!/bin/bash -e
+
+./sh/jenkins/prepare.sh $code_inspection_folder $source_folder'''
+        }
+
       }
     }
     stage('collect metrics') {

@@ -49,8 +49,8 @@ sudo ./$code_inspection_folder/sh/jenkins/prepare.sh $code_inspection_folder $so
           steps {
             sh '''#!/bin/bash -e
 
-sudo chmod +x ../$code_inspection_folder/sh/jenkins/execute_code_climate.sh
-sudo ../$code_inspection_folder/sh/jenkins/execute_code_climate.sh "$PWD/$source_folder" '''
+sudo chmod +x $code_inspection_folder/sh/jenkins/execute_code_climate.sh
+sudo $code_inspection_folder/sh/jenkins/execute_code_climate.sh "$PWD/$source_folder" '''
           }
         }
         stage('execute churn lifetime') {

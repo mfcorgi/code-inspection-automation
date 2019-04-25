@@ -7,7 +7,7 @@ pipeline {
           steps {
             dir(path: "${env.code_inspection_folder}") {
               git(url: "${env.code_inspection_url}", branch: "${env.code_inspection_branch}", credentialsId: "${env.code_inspection_credentials_id}", changelog: true)
-              sh 'rm -rf inspection'
+              sh 'sudo rm -rf inspection'
             }
 
           }

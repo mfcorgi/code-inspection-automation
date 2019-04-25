@@ -50,35 +50,8 @@ sudo ./$code_inspection_folder/sh/jenkins/prepare.sh $code_inspection_folder $so
             dir(path: "${env.source_folder}") {
               sh '''#!/bin/bash -e
 
-repo="$(realpath .)"
-echo "Repository Path $repo"
-outdir="inspection"
-
-if [ ! -d ".git" ]; then
-    echo "It does not appear to be a Git repository" 1>&2
-    exit 1
-fi
-
-if [ ! -d "$outdir" ]; then
-    echo "$outdir does not exist.  Please run prepare.sh" 1>&2
-    exit 1
-fi
-
-if ! command -v codeclimate >& /dev/null; then
-    echo "\'codeclimate\' is not runnable.  Please download and install the " 1>&2
-    echo "CodeClimate CLI, including the wrapper package, as described here:" 1>&2
-    echo https://github.com/codeclimate/codeclimate#code-climate-cli 1>&2
-    exit 1
-fi
-
-cc="$outdir/ci_cc_results.json"
-if [ ! -f "$cc" ]; then
-    echo "Processing CodeClimate..."
-    sudo docker pull codeclimate/codeclimate
-    sudo docker run --env CODECLIMATE_DEBUG=1 --env CODECLIMATE_CODE="${repo}" --volume "${repo}":/code --volume /var/run/docker.sock:/var/run/docker.sock --volume /tmp/cc:/tmp/cc codeclimate/codeclimate analyze -f json > "$cc.new"
-    mv "$cc.new" "$cc"    
-fi
-'''
+sudo chmod +x $code_inspection_folder/sh/jenkins/execute_code_climate.sh
+sudo ./$code_inspection_folder/sh/jenkins/execute_code_climate.sh'''
             }
 
           }

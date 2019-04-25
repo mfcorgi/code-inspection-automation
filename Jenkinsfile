@@ -83,6 +83,10 @@ fi
 echo "Preparing CodeClimate configurations."
 GLOBIGNORE=.
 cp -v "$tools"/config/codeclimate/code_inspections/* .
+
+if [ ! -z "$code_climate_config" ];
+  echo "$code_climate_config" > .codeclimate.yml
+
 shopt -u dotglob
 
 if git ls-files --error-unmatch .eslintignore >& /dev/null ; then
@@ -259,6 +263,6 @@ echo "Wrote $outdir/data.csv"'''
     string(name: 'repository', defaultValue: 'https://github.com/corgibytes/ein-slackbot.git', description: 'Repository URL to inspect')
     string(name: 'branch', defaultValue: 'master', description: 'Branch that you want to inspect')
     string(name: 'credentials_id', defaultValue: 'github-credentials', description: 'Credentials ID configured in Jenkins that allows access to the repository')
-    text(name: 'code_climate_config', defaultValue: '', description: 'Code Climate Configuration. If empty, will use the default code climate configuration from code inspection repository') 
+    text(name: 'code_climate_config', defaultValue: '', description: 'Code Climate Configuration. If empty, will use the default code climate configuration from code inspection repository')
   }
 }

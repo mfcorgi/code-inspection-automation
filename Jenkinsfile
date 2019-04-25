@@ -86,6 +86,7 @@ cp -v "$tools"/config/codeclimate/code_inspections/* .
 
 if [ ! -z "$code_climate_config" ];
   echo "$code_climate_config" > .codeclimate.yml
+fi
 
 shopt -u dotglob
 

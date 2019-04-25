@@ -75,19 +75,8 @@ sudo $code_inspection_folder/sh/jenkins/execute_churn_recent.sh "$PWD/$code_insp
       steps {
         sh '''#!/bin/bash -e
 
-workspace="$(realpath .)"
-tools="$workspace/$code_inspection_folder" 
-repo="$workspace/$source_folder"
-outdir="$repo/inspection"
-
-cd "$tools/script"
-
-export PATH=$PATH:/home/ec2-user/.rbenv/plugins/ruby-build/bin:/home/ec2-user/.rbenv/shims:/home/ec2-user/.rbenv/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/home/ec2-user/.local/bin:/home/ec2-user/bin
-ruby -v
-bundle install
-bundle exec exe/metrics-parser --dir=$outdir
-
-echo "Wrote $outdir/data.csv"'''
+sudo chmod +x $code_inspection_folder/sh/jenkins/execute_report_consolidator.sh
+sudo $code_inspection_folder/sh/jenkins/execute_report_consolidator.sh "$PWD/$code_inspection_folder" "$PWD/$source_folder"'''
       }
     }
     stage('save artifacts') {

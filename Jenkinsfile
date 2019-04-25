@@ -37,7 +37,7 @@ sudo chmod u+x /usr/local/bin/git-churn
     }
     stage('execute prepare.sh') {
       steps {
-        dir(path: '"${env.code_inspection_folder}"') {
+        dir(path: "${env.code_inspection_folder}") {
           sh '''#!/bin/bash -e
 
 ./sh/jenkins/prepare.sh $code_inspection_folder $source_folder'''
